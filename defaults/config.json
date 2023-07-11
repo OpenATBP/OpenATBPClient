@@ -1,5 +1,4 @@
 {
-    "autoupdate-check": true,
-    "cache-swapping": true,
-    "last-version-initialized": "1.4"
+    "game-url": "http://alpha.openatbp.xyz/",
+    "last-version-initialized": "1.0"
 }

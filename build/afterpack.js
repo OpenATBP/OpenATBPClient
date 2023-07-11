@@ -1,6 +1,6 @@
 const fs = require('fs');
 const defaultdir = './dist/win-ia32-unpacked/resources/default_app'
-const exefile = './dist/win-ia32-unpacked/OpenFusionClient.exe'
+const exefile = './dist/win-ia32-unpacked/OpenATBPClient.exe'
 
 exports.default = function() {
   // remove leftover files from default electron app
