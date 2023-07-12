@@ -107,7 +107,11 @@ app.on("ready", function () {
             }
         }
     } catch (ex) {
-        console.log("An error occurred while checking for the config");
+        dialog.showErrorBox(
+            "Error!",
+            "An error occurred while checking for the config. Make sure you have sufficent permissions."
+        );
+        app.quit();
     }
 
     mainWindow.on("closed", function () {
@@ -135,6 +139,18 @@ function showMainWindow() {
         );
         mainWindow.destroy();
         app.quit();
+    });
+
+    mainWindow.webContents.on("will-navigate", function (evt, url) {
+        evt.preventDefault();
+        var configPath = app.getPath("userData") + "\\config.json";
+        var config = fs.readJsonSync(configPath);
+
+        if (!url.startsWith(config['game-url'])) {
+            require("shell").openExternal(url);
+        } else {
+            mainWindow.loadUrl(url);
+        }
     });
 
     mainWindow.webContents.on("did-fail-load", function () {
