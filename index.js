@@ -5,6 +5,7 @@ var dialog = require("dialog");
 var BrowserWindow = require("browser-window");
 
 var mainWindow = null;
+var initialPageLoad = false;
 
 app.commandLine.appendSwitch("--enable-npapi");
 
@@ -86,8 +87,8 @@ app.on("ready", function () {
 
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 1280,
-        height: 720,
+        width: 1090,
+        height: 776,
         show: false,
         "web-preferences": { plugins: true },
     });
@@ -130,6 +131,7 @@ function showMainWindow() {
     mainWindow.webContents.on("did-finish-load", function () {
         mainWindow.show();
         mainWindow.webContents.executeJavaScript("OnResize();");
+        //mainWindow.webContents.openDevTools()
     });
 
     mainWindow.webContents.on("plugin-crashed", function () {
@@ -150,15 +152,18 @@ function showMainWindow() {
             require("shell").openExternal(url);
         } else {
             mainWindow.loadUrl(url);
+            initialPageLoad = true;
         }
     });
 
     mainWindow.webContents.on("did-fail-load", function () {
-        dialog.showErrorBox(
-            "Error!",
-            "Could not load page. Check your Internet connection, and game-url inside config.json."
-        );
-        mainWindow.destroy();
-        app.quit();
+        if (!initialPageLoad) {
+          dialog.showErrorBox(
+              "Error!",
+              "Could not load page. Check your Internet connection, and game-url inside config.json."
+          );
+          mainWindow.destroy();
+          app.quit();
+        }
     });
 }
