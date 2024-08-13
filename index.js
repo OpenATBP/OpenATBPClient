@@ -166,4 +166,11 @@ function showMainWindow() {
           app.quit();
         }
     });
+
+    mainWindow.on('close',function(e){
+      var choice = dialog.showMessageBox({"type":'question','buttons':['Yes','No'],'title':'Confirm','message':'Are you sure you want to close the client?'});
+      if(choice == 1){
+        e.preventDefault();
+      }
+    });
 }
